@@ -73,7 +73,8 @@ router.delete("/:id", async (req, res) => {
       return;
     }
 
-    res.status(200).json({ message: "Category successfully deleted" });
+    res
+      .status(200).json({ message: "Requested category successfully deleted" });
   } catch (err) {
     res.status(500).json({ message: "Interal Error" });
   }
