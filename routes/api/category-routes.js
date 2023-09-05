@@ -4,13 +4,15 @@ const { Category, Product } = require("../../models");
 // The `/api/categories` endpoint
 // Get ALL categories
 router.get("/", async (req, res) => {
+  console.log("Hello!");
   try {
     const categories = await Category.findAll({
       include: [{ model: Product }],
     });
-
+    console.log(categories);
     res.status(200).json(categories);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Internal Error" });
   }
 });
@@ -18,12 +20,12 @@ router.get("/", async (req, res) => {
 // Get Category by ID
 router.get("/:id", async (req, res) => {
   try {
-    const categories = await Category.findByPk(req.params.id, {
+    const category = await Category.findByPk(req.params.id, {
       include: [{ model: Product }],
     });
 
     if (!category) {
-      res.status(400).json({ message: "Category ID not found" });
+      res.status(404).json({ message: "Category ID not found" });
       return;
     }
     res.status(200).json(category);
@@ -50,7 +52,7 @@ router.put("/:id", async (req, res) => {
     });
 
     if (updateCategory[0] === 0) {
-      res.status(404).json({ message: "Page not found" });
+      res.status(404).json({ message: "Category not found" });
       return;
     }
 
